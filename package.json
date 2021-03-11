@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/conner-kim/fcm_test#readme",
   "dependencies": {
-    "firebase": "^8.3.0"
+    "firebase": "^8.3.0",
+    "firebase-tools": "^9.6.0"
   }
 }
