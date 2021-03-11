@@ -1,0 +1,22 @@
+{
+  "name": "fcm_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/conner-kim/fcm_test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conner-kim/fcm_test/issues"
+  },
+  "homepage": "https://github.com/conner-kim/fcm_test#readme",
+  "dependencies": {
+    "firebase": "^8.3.0"
+  }
+}
