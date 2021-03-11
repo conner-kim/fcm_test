@@ -1,6 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/messaging";
-
+// import firebase from "firebase/app";
+// import "firebase/messaging";
 
 var isServiceWorkerSupported = 'serviceWorker' in navigator;
 if (isServiceWorkerSupported) {
@@ -95,17 +94,21 @@ function initFirebase(serviceWorkerRegistration) {
     firebase.analytics();
 
     console.log('메세지 작업 시작!!')
-    var messaging = firebase.messaging();
+    const messaging = firebase.messaging();
+
+    console.log('11')
     const public_key = 'BJIUP33x5zzOvKmkkO8bZHl8mq7nfnLGhv120-MjYCq4D_esq4UgfTfa4CVYsvc33n8WI1pWn76TcqH3NPMN3G0';
     messaging
         .getToken({vapidKey: public_key})
-        .then( currentToken => {
-            if(currentToken) {
+        .then(currentToken => {
+            if (currentToken) {
                 console.log('get token 성공: ', currentToken);
-            }else {
+            } else {
                 console.log('Instance ID Token 발행 실패');
-                sendTokenToServer(null);
             }
+        })
+        .catch(error => {
+            console.log('get token error: ', error)
         })
 
     messaging.onMessage((payload) => {
