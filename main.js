@@ -27,7 +27,10 @@ function notification_requestPermission() {
     }
 }
 
-notification_requestPermission();
+$(document).ready(function () {
+
+    notification_requestPermission();
+})
 
 self.addEventListener('message', e => {
     console.log(e)
