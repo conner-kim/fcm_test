@@ -94,8 +94,8 @@ function initFirebase(serviceWorkerRegistration){
     var messaging = firebase.messaging();
     messaging.useServiceWorker(serviceWorkerRegistration);
     const public_key = 'BJIUP33x5zzOvKmkkO8bZHl8mq7nfnLGhv120-MjYCq4D_esq4UgfTfa4CVYsvc33n8WI1pWn76TcqH3NPMN3G0';
-    messaging.usePublickVapidKey(public_key)
-
+    messaging.usePublicVapidKey(public_key);
+    window.msg = messaging;
     // Instance ID Token 발급 요청
     messaging.getToken()
         .then((currentToken) => {
