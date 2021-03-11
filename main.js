@@ -1,3 +1,5 @@
+import '@firebase/messaging';
+
 var isServiceWorkerSupported = 'serviceWorker' in navigator;
 if (isServiceWorkerSupported) {
     navigator.serviceWorker
