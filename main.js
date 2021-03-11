@@ -73,3 +73,24 @@ self.addEventListener('notificationclick', (event) => {
     );
 });
 
+// Firebase SDK 초기화
+function initFirebase(serviceWorkerRegistration){
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyCMqYCykd6Plc-DfKgOPvQ3sQ8jNmgOLxQ",
+        authDomain: "news-crawler-f3e51.firebaseapp.com",
+        projectId: "news-crawler-f3e51",
+        storageBucket: "news-crawler-f3e51.appspot.com",
+        messagingSenderId: "36550956009",
+        appId: "1:36550956009:web:05e667202df4a309fe3178",
+        measurementId: "G-T99VDX84B1"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    var messaging = firebase.messaging();
+    messaging.useServiceWorker(serviceWorkerRegistration);
+    const public_key = 'BJIUP33x5zzOvKmkkO8bZHl8mq7nfnLGhv120-MjYCq4D_esq4UgfTfa4CVYsvc33n8WI1pWn76TcqH3NPMN3G0';
+    messaging.usePublickVapidKey(public_key)
+}
