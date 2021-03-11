@@ -5,7 +5,8 @@ if (isServiceWorkerSupported) {
         .then(function (registration) {
             console.log('serviceWorker 등록 성공: ', registration)
 
-            notification_requestPermission()
+            notification_requestPermission();
+            initFirebase(registration);
         })
         .catch((error) => {
             console.log('serviceWorker 등록 실패: ', error)
@@ -19,7 +20,6 @@ function notification_requestPermission() {
             .then((result) => {
                 if (result === 'granted') {
                     console.log('Notification 허용: ', result)
-
                 } else {
                     console.log('Notification 차단: ', result)
                 }
@@ -93,4 +93,37 @@ function initFirebase(serviceWorkerRegistration){
     messaging.useServiceWorker(serviceWorkerRegistration);
     const public_key = 'BJIUP33x5zzOvKmkkO8bZHl8mq7nfnLGhv120-MjYCq4D_esq4UgfTfa4CVYsvc33n8WI1pWn76TcqH3NPMN3G0';
     messaging.usePublickVapidKey(public_key)
+
+    // Instance ID Token 발급 요청
+    messaging.getToken()
+        .then((currentToken) => {
+            if(currentToken) {
+                console.log('Instance ID Token 발행 완료: ' + currentToken);
+                sendTokenToServer(currentToken);
+            }else {
+                console.log('Instance ID Token 발행 실패');
+                sendTokenToServer(null);
+            }
+        })
+
+    messaging.onTokenRefresh(() => {
+        messaging.getToken()
+            .then((refreshedToken) => {
+                console.log('Instance Id Token 갱신 완료: ' + refreshedToken)
+                sendTokenToServer(refreshedToken);
+            })
+            .catch((error) => {
+                console.log('Instance ID Token 갱신 실패: ' + error);
+                sendTokenToServer(null);
+            })
+    })
+
+    messaging.onMessage((payload) => {
+        // push message 수신 시 호출되는 이벤트
+        console.log('PushMessage 수신: ', payload);
+    })
+}
+
+function sendTokenToServer(token) {
+    return alert(token);
 }
