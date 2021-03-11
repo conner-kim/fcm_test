@@ -27,6 +27,11 @@ function notification_requestPermission() {
     }
 }
 
+self.addEventListener('message', e => {
+    console.log(e)
+    console.log(e.data)
+})
+
 // Push Message 수신 이벤트
 self.addEventListener('push', (event) => {
     console.log('serviceWorker 푸시알림 수신: ', event);
@@ -47,7 +52,7 @@ self.addEventListener('push', (event) => {
     event.waitUntil(self.registration.showNotification(title, options));
 })
 
-// 사용자가 Notification을 클릭했을 때
+// 사용자가 Notification을 클릭했을 때R
 self.addEventListener('notificationclick', (event) => {
     console.log('serviceWorker 푸시 알림 클릭: ', event);
 
