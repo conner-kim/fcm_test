@@ -27,6 +27,7 @@ function notification_requestPermission() {
     }
 }
 
+// Push Message 수신 이벤트
 self.addEventListener('push', (event) => {
     console.log('serviceWorker 푸시알림 수신: ', event);
 
@@ -44,3 +45,25 @@ self.addEventListener('push', (event) => {
     //Notification 출력
     event.waitUntil(self.registration.showNotification(title, options));
 })
+
+// 사용자가 Notification을 클릭했을 때
+self.addEventListener('notificationclick', (event) => {
+    console.log('serviceWorker 푸시 알림 클릭: ', event);
+
+    event.notification.close();
+    event.waitUntil(
+        clients.matchAll({type: "window"})
+            .then(function (clientList) {
+                //실행된 브라우저가 있으면 Focus
+                for (var i = 0; i < clientList.length; i++) {
+                    var client = clientList[i];
+                    if (client.url == '/' && 'focus' in client)
+                        return client.focus();
+                }
+                //실행된 브라우저가 없으면 Open
+                if (clients.openWindow)
+                    return clients.openWindow('https://localhost:44337/');
+            })
+    );
+});
+
