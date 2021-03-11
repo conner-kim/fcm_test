@@ -31,6 +31,7 @@ function notification_requestPermission() {
 self.addEventListener('push', (event) => {
     console.log('serviceWorker 푸시알림 수신: ', event);
 
+    console.log(event.data)
     // Push 정보 조회
     var title = event.data.title || '알림';
     var body = event.data.body;
