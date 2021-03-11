@@ -5,8 +5,6 @@ if (isServiceWorkerSupported) {
         .then(function (registration) {
             console.log('serviceWorker 등록 성공: ', registration)
 
-            notification_requestPermission();
-
             console.log('init Firebase!')
             initFirebase(registration);
         })
@@ -28,6 +26,8 @@ function notification_requestPermission() {
             })
     }
 }
+
+notification_requestPermission();
 
 self.addEventListener('message', e => {
     console.log(e)
@@ -76,7 +76,7 @@ self.addEventListener('notificationclick', (event) => {
 });
 
 // Firebase SDK 초기화
-function initFirebase(serviceWorkerRegistration){
+function initFirebase(serviceWorkerRegistration) {
 
     var firebaseConfig = {
         apiKey: "AIzaSyCMqYCykd6Plc-DfKgOPvQ3sQ8jNmgOLxQ",
@@ -91,18 +91,21 @@ function initFirebase(serviceWorkerRegistration){
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
 
+    console.log('메세지 작업 시작!!')
     var messaging = firebase.messaging();
     messaging.useServiceWorker(serviceWorkerRegistration);
     const public_key = 'BJIUP33x5zzOvKmkkO8bZHl8mq7nfnLGhv120-MjYCq4D_esq4UgfTfa4CVYsvc33n8WI1pWn76TcqH3NPMN3G0';
     messaging.usePublicVapidKey(public_key);
+
+    console.log('public key 입력')
     window.msg = messaging;
     // Instance ID Token 발급 요청
     messaging.getToken()
         .then((currentToken) => {
-            if(currentToken) {
+            if (currentToken) {
                 console.log('Instance ID Token 발행 완료: ' + currentToken);
                 sendTokenToServer(currentToken);
-            }else {
+            } else {
                 console.log('Instance ID Token 발행 실패');
                 sendTokenToServer(null);
             }
