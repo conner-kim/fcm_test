@@ -1,5 +1,3 @@
-import '@firebase/messaging';
-
 var isServiceWorkerSupported = 'serviceWorker' in navigator;
 if (isServiceWorkerSupported) {
     navigator.serviceWorker
@@ -8,6 +6,8 @@ if (isServiceWorkerSupported) {
             console.log('serviceWorker 등록 성공: ', registration)
 
             notification_requestPermission();
+
+            console.log('init Firebase!')
             initFirebase(registration);
         })
         .catch((error) => {
