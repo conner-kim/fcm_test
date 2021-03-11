@@ -103,6 +103,7 @@ function initFirebase(serviceWorkerRegistration) {
     console.log('public key 입력')
     window.msg = messaging;
     // Instance ID Token 발급 요청
+    console.log(messaging)
     messaging.getToken()
         .then((currentToken) => {
             if (currentToken) {
