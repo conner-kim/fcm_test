@@ -1,3 +1,7 @@
+import firebase from "firebase/app";
+import "firebase/messaging";
+
+
 var isServiceWorkerSupported = 'serviceWorker' in navigator;
 if (isServiceWorkerSupported) {
     navigator.serviceWorker
@@ -27,10 +31,6 @@ function notification_requestPermission() {
     }
 }
 
-// $(document).ready(function () {
-//
-//     notification_requestPermission();
-// })
 
 self.addEventListener('message', e => {
     console.log(e)
@@ -96,36 +96,17 @@ function initFirebase(serviceWorkerRegistration) {
 
     console.log('메세지 작업 시작!!')
     var messaging = firebase.messaging();
-    messaging.useServiceWorker(serviceWorkerRegistration);
     const public_key = 'BJIUP33x5zzOvKmkkO8bZHl8mq7nfnLGhv120-MjYCq4D_esq4UgfTfa4CVYsvc33n8WI1pWn76TcqH3NPMN3G0';
-    messaging.usePublicVapidKey(public_key);
-
-    console.log('public key 입력')
-    window.msg = messaging;
-    // Instance ID Token 발급 요청
-    console.log(messaging)
-    messaging.getToken()
-        .then((currentToken) => {
-            if (currentToken) {
-                console.log('Instance ID Token 발행 완료: ' + currentToken);
-                sendTokenToServer(currentToken);
-            } else {
+    messaging
+        .getToken({vapidKey: public_key})
+        .then( currentToken => {
+            if(currentToken) {
+                console.log('get token 성공: ', currentToken);
+            }else {
                 console.log('Instance ID Token 발행 실패');
                 sendTokenToServer(null);
             }
         })
-
-    messaging.onTokenRefresh(() => {
-        messaging.getToken()
-            .then((refreshedToken) => {
-                console.log('Instance Id Token 갱신 완료: ' + refreshedToken)
-                sendTokenToServer(refreshedToken);
-            })
-            .catch((error) => {
-                console.log('Instance ID Token 갱신 실패: ' + error);
-                sendTokenToServer(null);
-            })
-    })
 
     messaging.onMessage((payload) => {
         // push message 수신 시 호출되는 이벤트
